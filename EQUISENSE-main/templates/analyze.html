@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analyze Stock — EquiSense</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <h2>EQUI<span>SENSE</span></h2>
+          <p>Investment Decision Support</p>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="/dashboard" class="nav-item">
+            <span class="nav-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+              </svg>
+            </span>
+            Dashboard
+          </a>
+          <a href="/analyze" class="nav-item active">
+            <span class="nav-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+            </span>
+            Analyze Stock
+          </a>
+          <a href="/history" class="nav-item">
+            <span class="nav-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </span>
+            My History
+          </a>
+
+          <a href="/profile" class="nav-item">
+            <span class="nav-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </span>
+            Profile
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <a href="/logout" class="logout-btn">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            Sign Out
+          </a>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+        <div class="topbar">
+          <div>
+            <h1>Analyze a Stock</h1>
+            <p>Enter raw stock data to get your recommendation</p>
+          </div>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %} {% endif %} {% endwith %}
+
+        <div class="form-card">
+          <form method="POST">
+            <div class="form-grid">
+              <div class="form-group-light">
+                <label>Company Name</label>
+                <input
+                  type="text"
+                  name="company_name"
+                  placeholder="e.g. Safaricom PLC"
+                  required
+                />
+              </div>
+              <div class="form-group-light">
+                <label>Share Price (KES)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  name="share_price"
+                  placeholder="e.g. 145.00"
+                  required
+                />
+              </div>
+              <div class="form-group-light">
+                <label>Earnings Per Share (EPS)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  name="eps"
+                  placeholder="e.g. 2.50"
+                  required
+                />
+              </div>
+              <div class="form-group-light">
+                <label>Current Revenue (KES)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  name="current_revenue"
+                  placeholder="e.g. 5000000"
+                  required
+                />
+              </div>
+              <div class="form-group-light">
+                <label>Previous Revenue (KES)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  name="previous_revenue"
+                  placeholder="e.g. 4500000"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-group-light full-width">
+              <label
+                >Historical Closing Prices (comma separated — minimum 26
+                values)</label
+              >
+              <textarea
+                name="historical_prices"
+                rows="3"
+                placeholder="e.g. 140,142,139,145,148,150,147,152,155,153,158,160,157,162,165,163,168,170,167,172,175,173,178,180,177,182"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="max-width: 200px; margin-top: 8px"
+            >
+              Run Analysis &#8594;
+            </button>
+          </form>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

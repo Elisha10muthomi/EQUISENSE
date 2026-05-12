@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Results — EquiSense</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <h2>EQUI<span>SENSE</span></h2>
+          <p>Investment Decision Support</p>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="/dashboard" class="nav-item">
+            <span class="nav-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+              </svg>
+            </span>
+            Dashboard
+          </a>
+          <a href="/analyze" class="nav-item active">
+            <span class="nav-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+            </span>
+            Analyze Stock
+          </a>
+          <a href="/history" class="nav-item">
+            <span class="nav-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </span>
+            My History
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <a href="/logout" class="logout-btn">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            Sign Out
+          </a>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+        <div class="topbar">
+          <div>
+            <h1>Analysis Results</h1>
+            <p>{{ company_name }}</p>
+          </div>
+        </div>
+
+        <!-- RECOMMENDATION BANNER -->
+        <div class="rec-banner rec-{{ result.recommendation | lower }}">
+          <div class="rec-label">Recommendation</div>
+          <div class="rec-value">{{ result.recommendation }}</div>
+          <div class="rec-reason">{{ result.reason }}</div>
+        </div>
+
+        <!-- INDICATORS GRID -->
+        <div class="indicators-grid">
+          <div class="indicator-card">
+            <div class="ind-label">P/E Ratio</div>
+            <div class="ind-value">
+              {{ indicators.pe_ratio if indicators.pe_ratio else 'N/A' }}
+            </div>
+          </div>
+          <div class="indicator-card">
+            <div class="ind-label">Revenue Growth</div>
+            <div class="ind-value">
+              {{ indicators.revenue_growth if indicators.revenue_growth else
+              'N/A' }}%
+            </div>
+          </div>
+          <div class="indicator-card">
+            <div class="ind-label">RSI</div>
+            <div class="ind-value">
+              {{ indicators.rsi if indicators.rsi else 'N/A' }}
+            </div>
+          </div>
+          <div class="indicator-card">
+            <div class="ind-label">MACD</div>
+            <div class="ind-value">
+              {{ indicators.macd if indicators.macd else 'N/A' }}
+            </div>
+          </div>
+          <div class="indicator-card">
+            <div class="ind-label">Signal Line</div>
+            <div class="ind-value">
+              {{ indicators.signal_line if indicators.signal_line else 'N/A' }}
+            </div>
+          </div>
+          <div class="indicator-card">
+            <div class="ind-label">MA-50</div>
+            <div class="ind-value">
+              {{ indicators.ma_50 if indicators.ma_50 else 'N/A' }}
+            </div>
+          </div>
+          <div class="indicator-card">
+            <div class="ind-label">MA-200</div>
+            <div class="ind-value">
+              {{ indicators.ma_200 if indicators.ma_200 else 'N/A' }}
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; gap: 12px">
+          <a href="/analyze" class="btn btn-primary" style="max-width: 200px"
+            >Analyze Another</a
+          >
+          <a
+            href="/history"
+            class="btn btn-outline-dark"
+            style="max-width: 200px"
+            >View History</a
+          >
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

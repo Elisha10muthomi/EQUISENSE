@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile — EquiSense</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <h2>EQUI<span>SENSE</span></h2>
+          <p>Investment Decision Support</p>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="/dashboard" class="nav-item">
+            <span class="nav-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+              </svg>
+            </span>
+            Dashboard
+          </a>
+          <a href="/analyze" class="nav-item">
+            <span class="nav-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+            </span>
+            Analyze Stock
+          </a>
+          <a href="/history" class="nav-item">
+            <span class="nav-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </span>
+            My History
+          </a>
+          <a href="/profile" class="nav-item active">
+            <span class="nav-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </span>
+            Profile
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <a href="/logout" class="logout-btn">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            Sign Out
+          </a>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+        <div class="topbar">
+          <div>
+            <h1>Profile Settings</h1>
+            <p>Manage your account details and password</p>
+          </div>
+          <!-- AVATAR -->
+          <div class="user-badge">
+            <div class="user-avatar">{{ user.full_name[0].upper() }}</div>
+            <span>{{ user.full_name }}</span>
+          </div>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %} {% endif %} {% endwith %}
+
+        <div class="profile-grid">
+          <!-- UPDATE DETAILS -->
+          <div class="form-card">
+            <div class="form-card-header">
+              <div class="form-card-title">Personal Details</div>
+              <div class="form-card-subtitle">
+                Update your name and email address
+              </div>
+            </div>
+            <form method="POST">
+              <input type="hidden" name="action" value="update_details" />
+              <div class="form-group-light">
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  name="full_name"
+                  value="{{ user.full_name }}"
+                  required
+                />
+              </div>
+              <br />
+              <div class="form-group-light">
+                <label>Email Address</label>
+                <input
+                  type="email"
+                  name="email"
+                  value="{{ user.email }}"
+                  required
+                />
+              </div>
+              <br />
+              <div class="form-group-light">
+                <label>Member Since</label>
+                <input
+                  type="text"
+                  value="{{ user.created_at.strftime('%d %B %Y') }}"
+                  disabled
+                />
+              </div>
+              <br />
+              <button
+                type="submit"
+                class="btn btn-primary"
+                style="max-width: 180px"
+              >
+                Save Changes
+              </button>
+            </form>
+          </div>
+
+          <!-- CHANGE PASSWORD -->
+          <div class="form-card">
+            <div class="form-card-header">
+              <div class="form-card-title">Change Password</div>
+              <div class="form-card-subtitle">
+                Make sure your password is strong and secure
+              </div>
+            </div>
+            <form method="POST">
+              <input type="hidden" name="action" value="change_password" />
+              <div class="form-group-light">
+                <label>Current Password</label>
+                <input
+                  type="password"
+                  name="current_password"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+              <br />
+              <div class="form-group-light">
+                <label>New Password</label>
+                <input
+                  type="password"
+                  name="new_password"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+              <br />
+              <div class="form-group-light">
+                <label>Confirm New Password</label>
+                <input
+                  type="password"
+                  name="confirm_password"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+              <br />
+              <button
+                type="submit"
+                class="btn btn-primary"
+                style="max-width: 180px"
+              >
+                Update Password
+              </button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
