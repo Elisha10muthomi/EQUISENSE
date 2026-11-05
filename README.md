@@ -12,7 +12,7 @@ The project bridges the gap between expert financial knowledge and everyday inve
 
 ---
 
-## 🎯 Objectives
+## 🎯 Objective
 
 The main objectives of EquiSense are to:
 
